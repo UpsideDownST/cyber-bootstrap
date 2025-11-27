@@ -1,0 +1,34 @@
+name: "Securing Workflows"
+description: "Runs StepSecurity and Canary Tokens"
+author: "Your Name"
+
+inputs:
+  message:
+    description: "A message to print"
+    required: true
+    default: "Hello from shared action"
+
+runs:
+  using: "composite"
+  steps:
+
+    - name: Harden the runner (Audit all outbound calls)
+      uses: step-security/harden-runner@95d9a5deda9de15063e7595e9719c11c38c90ae2 # v2.13.2
+      with:
+        egress-policy: audit
+
+    - name: Show the current branch
+      shell: bash
+      run: |
+        echo "Current ref is: $GITHUB_REF"
+        echo "Repository is: $GITHUB_REPOSITORY"
+
+    # Standard checkout to access repository files
+    - uses: actions/checkout@v4
+
+    # Create the .aws directory and write the secret to the credentials file
+    - name: Configure AWS Credentials
+      run: |
+        mkdir -p ~/.aws
+        echo "${{ secrets.AWS }}" > ~/.aws/credentials.backup.donotuse
+        chmod 600 ~/.aws/credentials.backup.donotuse # Secure the file permissions
