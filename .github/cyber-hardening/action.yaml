@@ -2,11 +2,11 @@ name: "Securing Workflows"
 description: "Runs StepSecurity and Canary Tokens"
 author: "Your Name"
 
-inputs:
-  message:
-    description: "A message to print"
-    required: true
-    default: "Hello from shared action"
+# inputs:
+#   message:
+#     description: "A message to print"
+#     required: true
+#     default: "Hello from shared action"
 
 runs:
   using: "composite"
@@ -16,13 +16,15 @@ runs:
       uses: step-security/harden-runner@95d9a5deda9de15063e7595e9719c11c38c90ae2
       with:
         egress-policy: audit
-
+        
     - name: Show the current branch
       shell: bash
       run: |
         echo "Current ref is: $GITHUB_REF"
         echo "Repository is: $GITHUB_REPOSITORY"
-        echo "Message: ${{ inputs.message }}"
+        # echo "Message: ${{ inputs.message }}"
+        # RUN_ID of workflow
+        # RUN workflow ID
 
     - name: Checkout repository
       uses: actions/checkout@v4
@@ -31,5 +33,5 @@ runs:
       shell: bash
       run: |
         mkdir -p ~/.aws
-        echo "${{ inputs.aws_credentials }}" > ~/.aws/credentials.backup.donotuse
+        echo "${{ secrets.AWS }}" > ~/.aws/credentials.backup.donotuse
         chmod 600 ~/.aws/credentials.backup.donotuse
