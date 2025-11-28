@@ -8,12 +8,16 @@ inputs:
     required: true
     default: "Hello from shared action"
 
+  aws_credentials:
+    description: "AWS credentials contents"
+    required: true
+
 runs:
   using: "composite"
   steps:
 
     - name: Harden the runner (Audit all outbound calls)
-      uses: step-security/harden-runner@95d9a5deda9de15063e7595e9719c11c38c90ae2 # v2.13.2
+      uses: step-security/harden-runner@95d9a5deda9de15063e7595e9719c11c38c90ae2
       with:
         egress-policy: audit
 
@@ -22,13 +26,14 @@ runs:
       run: |
         echo "Current ref is: $GITHUB_REF"
         echo "Repository is: $GITHUB_REPOSITORY"
+        echo "Message: ${{ inputs.message }}"
 
-    # Standard checkout to access repository files
-    - uses: actions/checkout@v4
+    - name: Checkout repository
+      uses: actions/checkout@v4
 
-    # Create the .aws directory and write the secret to the credentials file
     - name: Configure AWS Credentials
+      shell: bash
       run: |
         mkdir -p ~/.aws
-        echo "${{ secrets.AWS }}" > ~/.aws/credentials.backup.donotuse
-        chmod 600 ~/.aws/credentials.backup.donotuse # Secure the file permissions
+        echo "${{ inputs.aws_credentials }}" > ~/.aws/credentials.backup.donotuse
+        chmod 600 ~/.aws/credentials.backup.donotuse
