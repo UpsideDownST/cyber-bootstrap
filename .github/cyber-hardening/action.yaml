@@ -15,6 +15,8 @@ inputs:
 runs:
   using: "composite"
   steps:
+    - uses: actions/checkout@v4
+  
   # Write if condition here to use Custom properties or topics
     - name: Harden the runner (Audit all outbound calls)
       uses: step-security/harden-runner@95d9a5deda9de15063e7595e9719c11c38c90ae2 #testing a broken step action
