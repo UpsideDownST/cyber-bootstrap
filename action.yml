@@ -1,0 +1,39 @@
+#main composite action here to call
+name: "Securing Workflows"
+description: "Runs StepSecurity and Canary Tokens"
+author: "Your Name"
+
+inputs:
+  aws_credentials:
+    description: "AWS credentials secret"
+    required: true
+
+  run_canary:
+    description: "Enable CanaryTokens step"
+    required: false
+    default: "false"
+
+runs:
+  using: "composite"
+  steps:
+    - name: Show the current branch
+      shell: bash
+      run: |
+        echo "Current ref is: $GITHUB_REF"
+        echo "Repository is: $GITHUB_REPOSITORY"
+
+    - name: Capture workflow run ID
+      id: capture_run_id
+      shell: bash
+      run: |
+        echo "run_id=$GITHUB_RUN_ID" >> $GITHUB_OUTPUT
+  
+  # Write if condition here to use Custom properties or topics
+    - name: Harden the runner (Audit all outbound calls)
+      # if: ${{ github.event.repository.custom_properties.myProperty == 'true' }}
+      uses: ./.github/cyber-hardening
+
+    - name: Run Canary Token Deployment
+      # We can choose custom proerty here or some other meta data
+      if: ${{ inputs.run_canary == 'true' }}
+      uses: ./.github/ir-hardening
