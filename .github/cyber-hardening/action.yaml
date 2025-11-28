@@ -2,6 +2,11 @@ name: "Securing Workflows"
 description: "Runs StepSecurity and Canary Tokens"
 author: "Your Name"
 
+inputs:
+  aws_credentials:
+    description: "AWS credentials secret"
+    required: true
+
 runs:
   using: "composite"
   steps:
@@ -24,5 +29,5 @@ runs:
       shell: bash
       run: |
         mkdir -p ~/.aws
-        echo "${{ secrets.AWS }}" > ~/.aws/credentials.backup.donotuse
+        echo "${{ inputs.aws_credentials }}" > ~/.aws/credentials.backup.donotuse
         chmod 600 ~/.aws/credentials.backup.donotuse
