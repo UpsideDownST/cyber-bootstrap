@@ -2,12 +2,6 @@ name: "Securing Workflows"
 description: "Runs StepSecurity and Canary Tokens"
 author: "Your Name"
 
-# inputs:
-#   message:
-#     description: "A message to print"
-#     required: true
-#     default: "Hello from shared action"
-
 runs:
   using: "composite"
   steps:
@@ -25,9 +19,6 @@ runs:
         # echo "Message: ${{ inputs.message }}"
         # RUN_ID of workflow
         # RUN workflow ID
-
-    - name: Checkout repository
-      uses: actions/checkout@v4
 
     - name: Configure AWS Credentials
       shell: bash
