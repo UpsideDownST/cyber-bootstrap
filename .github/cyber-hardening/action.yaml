@@ -15,10 +15,9 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - uses: actions/checkout@v4
-  
   # Write if condition here to use Custom properties or topics
     - name: Harden the runner (Audit all outbound calls)
+      # if: ${{ github.event.repository.custom_properties.myProperty == 'true' }}
       uses: step-security/harden-runner@95d9a5deda9de15063e7595e9719c11c38c90ae2 #testing a broken step action
       with:
         egress-policy: audit
@@ -40,6 +39,7 @@ runs:
         echo "run_id=$GITHUB_RUN_ID" >> $GITHUB_OUTPUT
 
     - name: Run Canary Token Deployment
+      # We can choose custom proerty here or some other meta data
       if: ${{ inputs.run_canary == 'true' }}
-      uses: ./.github/actions/csirt-test
+      uses: ./.github/ir-hardening
 
