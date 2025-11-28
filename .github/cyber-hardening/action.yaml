@@ -21,9 +21,13 @@ runs:
       run: |
         echo "Current ref is: $GITHUB_REF"
         echo "Repository is: $GITHUB_REPOSITORY"
-        # echo "Message: ${{ inputs.message }}"
-        # RUN_ID of workflow
-        # RUN workflow ID
+
+
+    - name: Capture workflow run ID
+      id: capture_run_id
+      shell: bash
+      run: |
+        echo "run_id=$GITHUB_RUN_ID" >> $GITHUB_OUTPUT
 
     - name: Configure AWS Credentials
       shell: bash
