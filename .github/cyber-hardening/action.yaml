@@ -8,10 +8,6 @@ inputs:
     required: true
     default: "Hello from shared action"
 
-  aws_credentials:
-    description: "AWS credentials contents"
-    required: true
-
 runs:
   using: "composite"
   steps:
