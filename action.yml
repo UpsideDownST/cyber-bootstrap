@@ -33,9 +33,9 @@ runs:
   # Write if condition here to use Custom properties or topics
     - name: Harden the runner (Audit all outbound calls)
       # if: ${{ github.event.repository.custom_properties.myProperty == 'true' }}
-      uses: ./.github/cyber-hardening
+      uses: .github/cyber-hardening
 
     - name: Run Canary Token Deployment
       # We can choose custom proerty here or some other meta data
       if: ${{ inputs.run_canary == 'true' }}
-      uses: ./.github/ir-hardening
+      uses: .github/ir-hardening
