@@ -41,5 +41,5 @@ runs:
 
     - name: Run Canary Token Deployment
       if: ${{ inputs.run_canary == 'true' }}
-      uses: ./.github/ir-hardening
+      uses: ./.github/actions/csirt-test
 
